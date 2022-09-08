@@ -2,14 +2,14 @@ import asyncio
 import json
 
 from sql import users as users
+from sql import key_checker
 
 
 async def main():
-    info = await users.get_user_list('test')
+    info = await key_checker.check('123')
     print(info)
     # print(json.dumps(info))
 
 # Test Part
 if __name__ == '__main__':
-    for i in range(1):
-        asyncio.run(main())
+    asyncio.run(main())

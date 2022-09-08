@@ -8,7 +8,7 @@ from .pool import SQLPool
 
 
 # Get User List of ALL Users.
-async def get_user_list(key: str) -> list | str:
+async def get_user_list() -> list | str:
     '''(Asynchronous) Get A List of Dict Object that contain every single user's info
 
     Return:
@@ -16,9 +16,6 @@ async def get_user_list(key: str) -> list | str:
     e.g. [{'id':10001, 'name':'xxx',....}, {...}, {...}]
 
     If failed. return string type err msg'''
-    # If no key provided, return err msg
-    if key == None:
-        return 'Authorization Failed'
     # Get a conn pool
     try:
         pool = await SQLPool()
@@ -26,7 +23,7 @@ async def get_user_list(key: str) -> list | str:
             conn: aiomysql.Connection
             async with conn.cursor() as cursor:
                 cursor: aiomysql.Cursor
-                await cursor.execute('''SELECT * FROM users''')
+                await cursor.execute('''SELECT * FROM users ORDER by point DESC''')
                 res = await cursor.fetchall()
     except:
         return 'Internal Error: Cannot connected to SQL Server'
